@@ -11,7 +11,7 @@ describe("Likes", () => {
         techs: ["Node", "Express", "TypeScript"],
       });
 
-    let response = await request(app).put(
+    let response = await request(app).post(
       `/repositories/${repository.body.id}/like`
     );
 
@@ -19,7 +19,7 @@ describe("Likes", () => {
       likes: 1,
     });
 
-    response = await request(app).put(
+    response = await request(app).post(
       `/repositories/${repository.body.id}/like`
     );
 
@@ -29,6 +29,6 @@ describe("Likes", () => {
   });
 
   it("should not be able to like a repository that does not exist", async () => {
-    await request(app).put(`/repositories/123/like`).expect(400);
+    await request(app).post(`/repositories/123/like`).expect(400);
   });
 });

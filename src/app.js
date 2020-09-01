@@ -38,12 +38,10 @@ app.put("/repositories/:id", (request, response) => {
 
   if (index === -1) return response.status(400).send();
 
-  const oldValuesRepository = repositories[index];
-  const updateValuesRepository = { ...oldValuesRepository, title, url, techs };
+  let repository = repositories[index];
+  repository = { ...repository, title, url, techs };
 
-  repositories.splice(index, 1, updateValuesRepository);
-
-  return response.json(updateValuesRepository);
+  return response.json(repository);
 });
 
 app.delete("/repositories/:id", (request, response) => {
@@ -57,12 +55,13 @@ app.delete("/repositories/:id", (request, response) => {
   return response.status(204).send();
 });
 
-app.put("/repositories/:id/like", (request, response) => {
+app.post("/repositories/:id/like", (request, response) => {
   const { id } = request.params;
-  const repository = repositories.find((x) => x.id === id);
+  const index = repositories.findIndex((x) => x.id === id);
 
-  if (repository === undefined) return response.status(400).send();
+  if (index === -1) return response.status(400).send();
 
+  let repository = repositories[index];
   repository.likes++;
 
   return response.json(repository);
